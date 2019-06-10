@@ -97,13 +97,15 @@
 
 <div id="container">
 	<div id="device_select" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<select class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" name="select" id="selected-device">
+			<option value="null">No Device Selected</option>
+			<option value="1">Machine 1</option>
+			<option value="2">Machine 2</option>
+		</select>&nbsp;&nbsp;&nbsp;&nbsp;	
 		<label>From : </label><input class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" type="date" id="data-date-deb">
 		<label>To : </label><input class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" type="date" id="data-date-fin">
 		<input type="button" name="submit" id="update-chart" value="Display">
-		<!--<select class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" name="select" id="selected-device">
-			<option value="null">No Device Selected</option>
-		</select>
-		<input class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" type="date" id="data-date">-->
+		<!--<input class="col-12 col-sm-12 col-md-5 col-lg-4 col-xl-3" type="date" id="data-date">-->
 	</div>
 	<div id="device_data">
 		<table>
@@ -180,8 +182,18 @@ $(document ).ready(function() {
 	$("#device_select #update-chart").click(function(event) {
 		var datedeb=$("#device_select input[type=date]").first().val();
 		var datefin=$("#device_select input[type=date]").last().val();
+		var data_from =$('#selected-device').val();
+		
 		$("#container .sk-circle").css({"visibility": "visible"});
 		$("#device_stat_data table tbody").html("");
+		if(data_from == "null"){
+			$('.alert-warning').text('Please select a valid Machine').show();
+		      setTimeout(function() {
+		        $('.alert-warning').hide();
+		      }, 1500);
+		      $("#container .sk-circle").css({"visibility": "hidden"});
+		      return ;
+		}		
 		if(datedeb == "null" || datefin == ""){
 			$('.alert-warning').text('Please provide a valid time interval').show();
 		      setTimeout(function() {
@@ -196,6 +208,7 @@ $(document ).ready(function() {
 		var datedeb = parseInt(temp1[2]).toString()+"/"+parseInt(temp1[1]).toString()+"/"+temp1[0].toString();
 		var datefin = parseInt(temp2[2]).toString()+"/"+parseInt(temp2[1]).toString()+"/"+temp2[0].toString()
 		var data = {
+			'data_from': data_from,
 			'datedeb': datedeb,
 			'datefin': datefin
 		}
