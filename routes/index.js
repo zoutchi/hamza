@@ -557,7 +557,7 @@ router.post('/getDataResist/', (req, res) => {
 	var secondDate = new Date(second.split('/')[2],second.split('/')[1],second.split('/')[0]);
 	var docRef = db1.ref("Machine1");
 	if (data_from=='2') docRef = db1.ref("Machine2");
-
+console.log('---------------'+data_from+'-'+firstDate+'-'+secondDate);
 	docRef.once("value", function(snapshot) {
 		snapshot.forEach(function(doc) {
 			var third=doc.val().Date;
@@ -573,17 +573,6 @@ router.post('/getDataResist/', (req, res) => {
 			return res.status(403).send('Could Not Get Devices');
 		})
 		return true;
-	/*var d = [];	
-	var docRef1 = db1.ref("Resistance");
-	docRef1.once("value", function(snapshot) {
-		snapshot.forEach(function(doc) {
-			d.push(doc.val());
-		});
-		res.setHeader('Content-Type', 'application/json');
-		return res.status(200).send(d);
-	}).catch(error => {
-		return res.status(403).send('Could Not Get Devices');
-	})*/
 })	
 /* --------------------------------------------------------------------- */
 router.post('/getDetailResist/', (req, res) => {
